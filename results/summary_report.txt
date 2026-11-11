@@ -1,0 +1,25 @@
+LAB 5: SCALABLE ANALYSIS WORKFLOW
+=================================
+
+1. DATASET OVERVIEW
+Total records: 626
+Cleaned sample records: 60
+Database patient records: 566
+
+2. CLEANED SAMPLE SUMMARY
+Average glucose (mg/dL): 152.48
+Records flagged for unit review (mmol/L): 13
+Missing glucose values: 2
+Glucose values included in average: 46
+Glucose values excluded due to unit uncertainty: 12
+
+3. DATABASE PATIENT SUMMARY
+Average age at diagnosis: 65.28
+Missing ages: 71
+
+4. DATA INTEGRATION NOTE
+The two datasets have different identifier systems.
+Records were concatenated with a source column.
+No patient-level matches were assumed.
+Glucose averages include only records labeled mg/dL.
+Records labeled mmol/L were excluded pending unit verification.

@@ -1,0 +1,147 @@
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-11-10 23:35:09
+  Workflow ID: 6354ff1d-46b7-487e-874e-87e905a1ef62
+  Platform: macOS-15.7.4-arm64-arm-64bit
+  Host: Natalys-MacBook-Air.local
+  User: natalysamayoasosa
+  Snakemake version: 9.24.0
+  Python version: 3.11.18 (main, Oct 26 2026, 11:32:31) [Clang 21.1.8 ]
+  Command: /Users/natalysamayoasosa/miniforge3/envs/lab5-workflow/bin/snakemake --cores 1 -p
+  Snakefile: /Users/natalysamayoasosa/lab5-scalable-workflow/Snakefile
+  Base directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Run directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Working directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Config file(s): []
+  Config MD5: 99914b932bd37a50b983c5e7c90ae93b
+
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+build_features         1
+clean_samples          1
+combine_tables         1
+generate_report        1
+all                    1
+total                  5
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:35:13 2026]
+localrule clean_samples:
+    input: data/raw/messy_samples.csv, scripts/clean_samples.py
+    output: data/processed/cleaned_samples.csv
+    jobid: 3
+    reason: Missing output files: data/processed/cleaned_samples.csv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/clean_samples.py           --input data/raw/messy_samples.csv           --output data/processed/cleaned_samples.csv
+        
+Select jobs to execute...
+Cleaned 60 rows.
+Saved cleaned table to data/processed/cleaned_samples.csv
+[Tue Nov 10 23:35:23 2026]
+Finished jobid: 3 (Rule: clean_samples)
+1 of 5 steps (20%) done
+Execute 1 jobs...
+
+[Tue Nov 10 23:35:23 2026]
+localrule build_features:
+    input: data/raw/cohort.db, scripts/build_feature_table.py
+    output: data/processed/feature_table.tsv
+    jobid: 4
+    reason: Missing output files: data/processed/feature_table.tsv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/build_feature_table.py
+        
+Patient rows after joining samples: 566
+Final patient rows: 566
+Unique patients: 566
+
+Feature table saved to: /Users/natalysamayoasosa/lab5-scalable-workflow/data/processed/feature_table.tsv
+
+First five rows:
+     patient_id     sex  age_at_diagnosis stage  ...  KRAS  EGFR  STK11  KEAP1
+0  TCGA-05-4244    male              70.0    IV  ...     1     0      0      0
+1  TCGA-05-4249    male              67.0    IB  ...     1     0      0      0
+2  TCGA-05-4250  female              79.0  IIIA  ...     1     0      0      0
+3  TCGA-05-4382    male              68.0    IB  ...     0     2      0      0
+4  TCGA-05-4384    male              66.0  IIIA  ...     0     0      0      1
+
+[5 rows x 11 columns]
+
+Missing values by column:
+patient_id             0
+sex                   52
+age_at_diagnosis      71
+stage                 54
+tissue_source_site     0
+tmb_nonsynonymous      0
+TP53                   0
+KRAS                   0
+EGFR                   0
+STK11                  0
+KEAP1                  0
+dtype: int64
+[Tue Nov 10 23:35:24 2026]
+Finished jobid: 4 (Rule: build_features)
+2 of 5 steps (40%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:35:24 2026]
+localrule combine_tables:
+    input: data/processed/cleaned_samples.csv, data/processed/feature_table.tsv, scripts/merge_tables.py
+    output: data/processed/combined_analysis.csv
+    jobid: 2
+    reason: Missing output files: data/processed/combined_analysis.csv; Input files updated by another job: data/processed/feature_table.tsv, data/processed/cleaned_samples.csv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/merge_tables.py           --samples data/processed/cleaned_samples.csv           --features data/processed/feature_table.tsv           --output data/processed/combined_analysis.csv
+        
+Sample records: 60
+Database records: 566
+Combined records: 626
+Saved to: data/processed/combined_analysis.csv
+[Tue Nov 10 23:35:24 2026]
+Finished jobid: 2 (Rule: combine_tables)
+3 of 5 steps (60%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:35:24 2026]
+localrule generate_report:
+    input: data/processed/combined_analysis.csv, scripts/generate_report.py
+    output: results/summary_report.txt
+    jobid: 1
+    reason: Missing output files: results/summary_report.txt; Input files updated by another job: data/processed/combined_analysis.csv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/generate_report.py           --input data/processed/combined_analysis.csv           --output results/summary_report.txt
+        
+Report saved to: results/summary_report.txt
+[Tue Nov 10 23:35:25 2026]
+Finished jobid: 1 (Rule: generate_report)
+4 of 5 steps (80%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:35:25 2026]
+localrule all:
+    input: results/summary_report.txt
+    jobid: 0
+    reason: Input files updated by another job: results/summary_report.txt
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: None
+[Tue Nov 10 23:35:25 2026]
+Finished jobid: 0 (Rule: all)
+5 of 5 steps (100%) done
+Complete log(s): /Users/natalysamayoasosa/lab5-scalable-workflow/.snakemake/log/2026-11-10T233508.946968.snakemake.log

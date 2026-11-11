@@ -1,0 +1,37 @@
+
+# Raw input data
+data/raw/
+*.db
+
+# Direct identifiers in intermediate outputs
+data/processed/cleaned_samples.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Snakemake
+.snakemake/
+
+# Conda and environment files
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# R / RStudio
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# macOS
+.DS_Store
+
+# Editor settings
+.vscode/
+.idea/
+
+data/processed/

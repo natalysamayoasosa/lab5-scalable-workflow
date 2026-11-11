@@ -1,0 +1,101 @@
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-11-10 23:38:19
+  Workflow ID: df103dce-788d-47bb-b62c-485e93eaff1f
+  Platform: macOS-15.7.4-arm64-arm-64bit
+  Host: Natalys-MacBook-Air.local
+  User: natalysamayoasosa
+  Snakemake version: 9.24.0
+  Python version: 3.11.18 (main, Oct 26 2026, 11:32:31) [Clang 21.1.8 ]
+  Command: /Users/natalysamayoasosa/miniforge3/envs/lab5-workflow/bin/snakemake --cores 1 -p --forcerun clean_samples
+  Snakefile: /Users/natalysamayoasosa/lab5-scalable-workflow/Snakefile
+  Base directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Run directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Working directory: /Users/natalysamayoasosa/lab5-scalable-workflow
+  Config file(s): []
+  Config MD5: 99914b932bd37a50b983c5e7c90ae93b
+
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+clean_samples          1
+combine_tables         1
+generate_report        1
+all                    1
+total                  4
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:38:19 2026]
+localrule clean_samples:
+    input: data/raw/messy_samples.csv, scripts/clean_samples.py
+    output: data/processed/cleaned_samples.csv
+    jobid: 3
+    reason: Forced execution
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/clean_samples.py           --input data/raw/messy_samples.csv           --output data/processed/cleaned_samples.csv
+        
+Cleaned 60 rows.
+Saved cleaned table to data/processed/cleaned_samples.csv
+[Tue Nov 10 23:38:19 2026]
+Finished jobid: 3 (Rule: clean_samples)
+1 of 4 steps (25%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:38:19 2026]
+localrule combine_tables:
+    input: data/processed/cleaned_samples.csv, data/processed/feature_table.tsv, scripts/merge_tables.py
+    output: data/processed/combined_analysis.csv
+    jobid: 2
+    reason: Input files updated by another job: data/processed/cleaned_samples.csv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/merge_tables.py           --samples data/processed/cleaned_samples.csv           --features data/processed/feature_table.tsv           --output data/processed/combined_analysis.csv
+        
+Sample records: 60
+Database records: 566
+Combined records: 626
+Saved to: data/processed/combined_analysis.csv
+[Tue Nov 10 23:38:20 2026]
+Finished jobid: 2 (Rule: combine_tables)
+2 of 4 steps (50%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:38:20 2026]
+localrule generate_report:
+    input: data/processed/combined_analysis.csv, scripts/generate_report.py
+    output: results/summary_report.txt
+    jobid: 1
+    reason: Input files updated by another job: data/processed/combined_analysis.csv
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: 
+        python scripts/generate_report.py           --input data/processed/combined_analysis.csv           --output results/summary_report.txt
+        
+Report saved to: results/summary_report.txt
+[Tue Nov 10 23:38:20 2026]
+Finished jobid: 1 (Rule: generate_report)
+3 of 4 steps (75%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Nov 10 23:38:20 2026]
+localrule all:
+    input: results/summary_report.txt
+    jobid: 0
+    reason: Input files updated by another job: results/summary_report.txt
+    resources: tmpdir=/var/folders/9k/xj5fhhv92979hbrr5sgcyzv80000gn/T
+Shell command: None
+[Tue Nov 10 23:38:20 2026]
+Finished jobid: 0 (Rule: all)
+4 of 4 steps (100%) done
+Complete log(s): /Users/natalysamayoasosa/lab5-scalable-workflow/.snakemake/log/2026-11-10T233818.933499.snakemake.log
