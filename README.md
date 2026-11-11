@@ -64,13 +64,54 @@ Activate it:
 conda activate lab5-workflow
 ```
 
-## Input Data
+
+## Input Data and Reproducibility
+
+The workflow uses two datasets supplied in the course
+`applied-computing-HDS` repository:
+
+1. `data/raw/lab3-messy-data/messy_samples.csv`
+2. `data/raw/lab4-cbioportal-luad/cohort.db`
+
+The raw datasets are excluded from this GitHub repository
+to avoid redistributing patient-related records.
+
+### Setting Up Input Data
+
+First, obtain the course repository through the official
+≈course GitHub link.
+
+From the Lab 5 repository root, copy the datasets using
+the following commands, assuming both repositories are
+located in the same parent directory:
+
+```bash
+mkdir -p data/raw
+
+cp ../applied-computing-HDS/data/raw/lab3-messy-data/messy_samples.csv data/raw/
+
+cp ../applied-computing-HDS/data/raw/lab4-cbioportal-luad/cohort.db data/raw/
+```
+
+Then run the workflow:
+
+```bash
+conda env create -f environment.yml
+conda activate lab5-workflow
+snakemake --cores 1 -p
+```
+
+Snakemake will automatically regenerate the cleaned table,
+patient feature table, combined analysis table, and summary
+report.
+
+The raw data files are not committed to this repository.
+
 
 The workflow requires:
 
 - `data/raw/messy_samples.csv` — messy sample data from the course repository.
 - `data/raw/cohort.db` — SQLite patient database used in Lab 4.
-
 The input files must be present before running the workflow.
 
 ## Running the Full Workflow
